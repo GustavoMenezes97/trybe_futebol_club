@@ -1,8 +1,9 @@
 import { Model, DataTypes } from 'sequelize';
 import db from '.';
+import IUser from '../../interfaces/userInterface';
 // import OtherModel from './OtherModel';
 
-class User extends Model {
+class User extends Model implements IUser {
   declare id: number;
   declare username: string;
   declare role: string;
