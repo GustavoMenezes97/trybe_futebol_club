@@ -1,18 +1,20 @@
+import * as bcrypt from 'bcryptjs';
+import CustomError from '../Helpers/customError';
 import ILogin from '../interfaces/loginInterface';
 import User from '../database/models/User';
 import createToken from '../Helpers/tokenGenerator';
 
 export default class LoginService {
   static async login(payload: ILogin): Promise<string> {
-    const { email } = payload;
+    const { email, password } = payload;
 
-    const loginExiste = await User.findOne({ where: { email } });
+    const loginExists = await User.findOne({ where: { email } });
 
-    if (loginExiste !== null) {
+    if (loginExists !== null && bcrypt.compareSync(password, loginExists.password)) {
       const token = createToken(payload);
       return token;
     }
 
-    return 'loginNaoExiste';
+    throw new CustomError(401, 'Incorrect email or password');
   }
 }
