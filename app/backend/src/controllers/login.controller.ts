@@ -7,4 +7,10 @@ export default class LoginController {
 
     return res.status(200).json({ token });
   }
+
+  static async validateLogin(req: Request, res: Response) {
+    const role = await LoginService.validateLogin(req.body.user);
+
+    return res.status(200).json({ role });
+  }
 }

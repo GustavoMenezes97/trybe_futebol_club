@@ -1,3 +1,5 @@
+// Créditos da customização de erros para o Daniel Outeiro - T23A, com base no site: https://javascript.info/custom-errors
+
 import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
 import { JsonWebTokenError } from 'jsonwebtoken';
 import customError from '../Helpers/customError';
