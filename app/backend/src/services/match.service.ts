@@ -10,7 +10,19 @@ export default class MatchService {
         { model: Team, as: 'homeTeam', attributes: ['teamName'] },
         { model: Team, as: 'awayTeam', attributes: ['teamName'] },
       ],
-    }) as unknown as IMatch[];
+    });
     return allMatches;
+  }
+
+  static async createMatch(payload: IMatch): Promise<IMatch> {
+    const newMatch = await Match.create({
+      homeTeamId: payload.homeTeamId,
+      homeTeamGoals: payload.homeTeamGoals,
+      awayTeamId: payload.awayTeamId,
+      awayTeamGoals: payload.awayTeamGoals,
+      inProgress: true,
+    });
+
+    return newMatch;
   }
 }
