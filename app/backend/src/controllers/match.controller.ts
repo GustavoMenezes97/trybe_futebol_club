@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import MatchService from '../services/match.service';
+import TeamService from '../services/team.service';
 
 export default class MatchController {
   static async getMatches(req: Request, res: Response) {
@@ -21,6 +22,12 @@ export default class MatchController {
 
   static async createMatch(req: Request, res: Response) {
     const payload = req.body;
+
+    const team = await TeamService.getTeamById(payload.homeTeamId);
+
+    if (!team) {
+      return team;
+    }
 
     const newMatch = await MatchService.createMatch(payload);
 
