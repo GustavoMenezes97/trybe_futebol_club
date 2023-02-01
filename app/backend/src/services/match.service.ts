@@ -1,4 +1,4 @@
-// import CustomError from '../Helpers/customError';
+import CustomError from '../Helpers/customError';
 import Team from '../database/models/Team';
 import Match from '../database/models/Match';
 import IMatch from '../interfaces/matchInterface';
@@ -24,5 +24,18 @@ export default class MatchService {
     });
 
     return newMatch;
+  }
+
+  static async updateMatch(id: number): Promise<object> {
+    const updatedMatch = await Match.update(
+      { inProgress: false },
+      { where: { id, inProgress: true } },
+    );
+
+    if (updatedMatch[0] === 0) {
+      throw new CustomError(404, 'Partida já finalizada ou id não encontrado');
+    }
+
+    return { message: 'Finished' };
   }
 }
