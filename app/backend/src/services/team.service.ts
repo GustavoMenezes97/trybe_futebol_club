@@ -15,6 +15,6 @@ export default class TeamService {
       return team;
     }
 
-    throw new CustomError(401, 'id not found');
+    throw new CustomError(404, 'Id not found');
   }
 }

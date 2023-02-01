@@ -17,7 +17,7 @@ const handleError: ErrorRequestHandler = (
     return res.status(401).json({ message: 'Token must be a valid token' });
   }
 
-  return res.status(500).json({ message: 'Server Error' });
+  return res.status(500).json({ message: error.message });
 };
 
 export default handleError;
