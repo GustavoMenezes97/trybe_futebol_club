@@ -1,7 +1,7 @@
 import CustomError from '../Helpers/customError';
 import Team from '../database/models/Team';
 import Match from '../database/models/Match';
-import IMatch, { IMatchGoals } from '../interfaces/matchInterface';
+import IMatch, { IMatchGoals, ISimpleMatch } from '../interfaces/matchInterface';
 
 export default class MatchService {
   static async getMatches(): Promise<IMatch[]> {
@@ -10,11 +10,12 @@ export default class MatchService {
         { model: Team, as: 'homeTeam', attributes: ['teamName'] },
         { model: Team, as: 'awayTeam', attributes: ['teamName'] },
       ],
-    });
+    }) as unknown as IMatch[];
+
     return allMatches;
   }
 
-  static async createMatch(payload: IMatch): Promise<IMatch> {
+  static async createMatch(payload: IMatch): Promise<ISimpleMatch> {
     const newMatch = await Match.create({
       homeTeamId: payload.homeTeamId,
       homeTeamGoals: payload.homeTeamGoals,

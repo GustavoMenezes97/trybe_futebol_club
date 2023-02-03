@@ -5,13 +5,15 @@ export default interface IMatch {
   awayTeamId: number;
   awayTeamGoals: number;
   inProgress: boolean;
-  homeTeam?: {
+  homeTeam: {
     teamName: string;
   };
-  awayTeam?: {
+  awayTeam: {
     teamName: string;
   }
 }
+
+export type ISimpleMatch = Omit<IMatch, 'homeTeam' | 'awayTeam'>;
 
 export interface IMatchGoals {
   homeTeamGoals: number;
