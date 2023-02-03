@@ -1,3 +1,5 @@
+// Recebi ajuda dos alunos Peter Fritz T22B e Vinícius Barbosa T22B
+
 import IMatch from '../interfaces/matchInterface';
 import ILeaderboard, {
   IScore,
