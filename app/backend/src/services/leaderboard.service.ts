@@ -13,6 +13,30 @@ export default class LearderboardService {
       ],
     }) as unknown as IMatch[];
 
+    return getLeaderBoard(matches, 'home');
+  }
+
+  static async getAwayLeaderboard() {
+    const matches = await Match.findAll({
+      where: { inProgress: false },
+      include: [
+        { model: Team, as: 'homeTeam', attributes: ['teamName'] },
+        { model: Team, as: 'awayTeam', attributes: ['teamName'] },
+      ],
+    }) as unknown as IMatch[];
+
+    return getLeaderBoard(matches, 'away');
+  }
+
+  static async getAllLeaderboard() {
+    const matches = await Match.findAll({
+      where: { inProgress: false },
+      include: [
+        { model: Team, as: 'homeTeam', attributes: ['teamName'] },
+        { model: Team, as: 'awayTeam', attributes: ['teamName'] },
+      ],
+    }) as unknown as IMatch[];
+
     return getLeaderBoard(matches);
   }
 }

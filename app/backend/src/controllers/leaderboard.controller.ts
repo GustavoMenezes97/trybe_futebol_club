@@ -7,4 +7,16 @@ export default class LearderboardController {
 
     return res.status(200).json(matches);
   }
+
+  static async getAwayLeaderboard(_req: Request, res: Response) {
+    const matches = await LearderboardService.getAwayLeaderboard();
+
+    return res.status(200).json(matches);
+  }
+
+  static async getAllLeaderboard(_req: Request, res: Response) {
+    const matches = await LearderboardService.getAllLeaderboard();
+
+    return res.status(200).json(matches);
+  }
 }

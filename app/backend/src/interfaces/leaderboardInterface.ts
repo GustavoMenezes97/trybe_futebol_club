@@ -13,6 +13,7 @@ export default interface ILeaderboard {
 
 export interface IScore {
   name: string;
+  teamLocation: 'home' | 'away';
   goalsFavor: number;
   goalsOwn: number;
   win: number;

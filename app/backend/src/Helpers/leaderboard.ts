@@ -5,14 +5,21 @@ import ILeaderboard, {
   ITotalTeamScores,
 } from '../interfaces/leaderboardInterface';
 
-const getScores = (matches: IMatch[]) => matches.map((item) => ({
-  name: item.homeTeam.teamName,
-  goalsFavor: item.homeTeamGoals,
-  goalsOwn: item.awayTeamGoals,
-  win: item.homeTeamGoals > item.awayTeamGoals ? 1 : 0,
-  lose: item.homeTeamGoals < item.awayTeamGoals ? 1 : 0,
-  draw: item.homeTeamGoals === item.awayTeamGoals ? 1 : 0,
-}));
+const getScores = (matches: IMatch[], teamLocation: 'away' | 'home'): IScore[] => (
+  matches.map((item) => {
+    const opponentLocation = teamLocation === 'home' ? 'away' : 'home';
+
+    return {
+      name: item[`${teamLocation}Team`].teamName,
+      teamLocation,
+      goalsFavor: item[`${teamLocation}TeamGoals`],
+      goalsOwn: item[`${opponentLocation}TeamGoals`],
+      win: item[`${teamLocation}TeamGoals`] > item[`${opponentLocation}TeamGoals`] ? 1 : 0,
+      lose: item[`${teamLocation}TeamGoals`] < item[`${opponentLocation}TeamGoals`] ? 1 : 0,
+      draw: item[`${teamLocation}TeamGoals`] === item[`${opponentLocation}TeamGoals`] ? 1 : 0,
+    };
+  })
+);
 
 const getTotalScores = (scores: IScore[]) => (
   Object.values(scores.reduce<ITotalTeamScores>((acc, curr) => ({
@@ -45,8 +52,15 @@ const balanceAndEfficiency = (totalScores: ITotalScore[]) => (
   }))
 );
 
-const getLeaderBoard = (matches: IMatch[]) => {
-  const scores = getScores(matches);
+const getLeaderBoard = (matches: IMatch[], teamLocation?: 'away' | 'home') => {
+  let scores = [...getScores(matches, 'home'), ...getScores(matches, 'away')];
+
+  if (teamLocation) {
+    scores = scores.filter((item) => (
+      item.teamLocation === teamLocation
+    ));
+  }
+
   const totalScores = getTotalScores(scores);
   const results = balanceAndEfficiency(totalScores);
 
